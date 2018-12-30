@@ -10,7 +10,7 @@ $files = 1..10 | ForEach-Object -Process {New-TemporaryFile}
 # or execute methods by specifying the name of the member
 Get-ChildItem | ForEach-Object -MemberName BaseName
 Get-Process | ForEach-Object -MemberName ToString
-(Get-ChildItem).LastWriteTime | ForEach-Object -MemberName ToString -ArgumentList 'F',([cultureinfo]'de-de')
+(Get-ChildItem).LastWriteTime | ForEach-Object -MemberName ToString -ArgumentList 'F', ([cultureinfo]'de-de')
 
 # Foreach-Object can accept multiple script block arguments
 # Begin and End are only executed once
@@ -24,7 +24,7 @@ $files | ForEach-Object -Begin {
 
 # Like the Where method, the Foreach method can be used instead of Foreach-Object
 # Arguments are script blocks, member names or data types to convert to
-$files.ForEach({Get-FileHash -Path $_.FullName})
+$files.ForEach( {Get-FileHash -Path $_.FullName})
 # Method calls
 $files.ForEach('ToString')
 # Type conversions for collections
@@ -39,7 +39,7 @@ $collection | ForEach-Object -Begin {
     Start-Sleep -Milliseconds 100
 } -Process {
     $counter++
-    Write-Progress -Id 1 -Activity 'Working on things' -Status "Processing $($_.Name)" -PercentComplete ($counter/$collection.Count * 100)
+    Write-Progress -Id 1 -Activity 'Working on things' -Status "Processing $($_.Name)" -PercentComplete ($counter / $collection.Count * 100)
     Start-Sleep -Milliseconds 100
 }
 
@@ -69,3 +69,12 @@ $hashtable | ForEach-Object {Write-Host "Key: $($_.Key), Value $($_.Value)"}
 
 # With an Enumerator, we can start the iteration for real
 $hashtable.GetEnumerator() | ForEach-Object {Write-Host "Key: $($_.Key), Value $($_.Value)"}
+
+# Performance comparison
+Measure-Command {1..1000 | ForEach-Object {$_}} # 43ms
+Measure-Command {(1..1000).Foreach( {$_})} # 33ms
+Measure-Command { # 12ms
+    foreach ($i in 1..1000)
+    {
+        $i
+    }}
