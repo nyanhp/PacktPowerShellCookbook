@@ -1,5 +1,32 @@
 # Pipeline input can be achieved quite simply with the Input variable
 # As an alternative, you can use $_ and $PSItem
+
+# Without a process block, pipeline input is not what you would expect
+function Test-PipelineInput
+{
+    Get-Item $Input
+}
+
+'/', $home, $PSHOME | Test-PipelineInput
+
+# To really make use of the pipeline, at least a process block is mandatory
+function Test-PipelineInput
+{
+    process
+    {
+        # The process block is mandatory for pipeline input.
+        # The variable input enumerates all objects in the pipeline
+        Write-Host "
+        `$_ is $_
+        `$PSItem is $PSItem
+        `$Input is $Input
+        "        
+    }
+}
+
+'/' | Test-PipelineInput
+
+# With Begin and End blocks
 function Test-PipelineInput
 {
     begin
@@ -10,8 +37,6 @@ function Test-PipelineInput
 
     process
     {
-        # The process block is mandatory for pipeline input.
-        # The variable input enumerates all objects in the pipeline
         Get-Item $Input
     }
 
@@ -74,7 +99,7 @@ function Test-PipelineByPropertyName
     (
         # Each parameter taking values from the pipeline needs to be decorated
         # with a parameter attribute
-        [Parameter(ValueFromPipelineByPropertyName)]
+        [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string[]]
         $Path
     )
@@ -98,7 +123,6 @@ function Test-PipelineByPropertyName
         $resultCollection
     }
 }
-Get-Process | Test-PipelineByPropertyName
 
-# If multiple parameters should be bound from the pipeline by property name, ensure
-# that your code properly handles missing parameters (i.e. object properties)
+Get-Process -Id $pid | Test-PipelineByPropertyName
+Test-PipelineByPropertyName -Path '/', $Home, $PSHOME
