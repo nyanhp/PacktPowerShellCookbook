@@ -185,3 +185,6 @@ function Remove-SoftwareRaid
         }
     }
 }
+
+Get-Item -Path /dev/md0 | Remove-SoftwareRaid -WhatIf
+Get-Item -Path /dev/md0 | Remove-SoftwareRaid -Confirm:$false
