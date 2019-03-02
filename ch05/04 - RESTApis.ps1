@@ -58,3 +58,13 @@ git clone $newRepo.clone_url MyNewRepo
 
 # Want to see how it looks like?
 start $newRepo.html_url
+
+# Change the description with a simple update
+$newRepoJson = @{
+    name             = 'NyanHP_Is_Awesome'
+    description      = 'This works like a charm :)'
+    has_wiki         = $false
+    license_template = 'mit'
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Patch -Uri "https://api.github.com/repos/$($newRepo.full_name)" -Authentication Basic -Credential $credential -Body $jsonBody -ContentType application/json
