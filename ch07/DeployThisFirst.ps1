@@ -57,8 +57,11 @@ Add-LabMachineDefinition -Name PACKT-WB1 -Memory 4GB -DomainName contoso.com
 # Hypervisor
 Add-LabMachineDefinition -Name PACKT-HV1 -Memory 4GB -DiskName PACKT-HV1-D -DomainName contoso.com
 
-
 Install-Lab
+
+Enable-LabCertificateAutoEnrollment -Computer
+
+New-LabCATemplate -TemplateName ContosoWebServer -DisplayName 'Web Server cert' -SourceTemplateName WebServer -ApplicationPolicy 'Server Authentication' -EnrollmentFlags Autoenrollment -PrivateKeyFlags AllowKeyExport -Version 2 -SamAccountName 'Domain Computers' -ComputerName (Get-LabIssuingCa) -ErrorAction Stop
 
 Stop-LabVm -ComputerName PACKT-HV1 -Wait
 Get-Vm -VMName PACKT-HV1 | Set-VMProcessor -ExposeVirtualizationExtensions $true

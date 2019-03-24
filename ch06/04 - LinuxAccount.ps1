@@ -17,4 +17,8 @@ $hashedPassword = python -c ('import crypt; print(crypt.crypt(\"{0}\", crypt.mks
 
 # Notice the format of your hashed password.
 # $<Numeric ID of the Algorithm>$<Salt>$<Hashedpassword>
-useradd -G wheel -p $hashedPassword
+useradd -G wheel -p $hashedPassword john
+
+# This would have been the ugly alternative
+useradd jim
+$credential.GetNetworkCredential().Password | passwd --stdin jim

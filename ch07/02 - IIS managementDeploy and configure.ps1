@@ -20,13 +20,18 @@ Get-Module -ListAvailable -Name WebAdministration
 Get-Command -Module WebAdministration
 
 # Request a certificate
-$certParam = @{
-    Url         = 'http://packt-dc1.contoso.com/certsrv'
-    SubjectName = "CN=$env:COMPUTERNAME"
-    Template    = 'WebServer'
-    DnsName     = $env:COMPUTERNAME, ([System.Net.Dns]::GetHostByName($env:COMPUTERNAME))
+if (-not (Get-ChildItem Cert:\LocalMachine\my | Where-Object {$_.Subject -eq "CN=$env:COMPUTERNAME" -and $_.Issuer -like '*LabRootCA1*'}))
+{
+    $certParam = @{
+        Url               = 'ldap:'
+        SubjectName       = "CN=$env:COMPUTERNAME"
+        Template          = 'ContosoWebServer'
+        DnsName           = $env:COMPUTERNAME, ([System.Net.Dns]::GetHostByName($env:COMPUTERNAME))
+        CertStoreLocation = 'Cert:\LocalMachine\my'
+    }
+    
+    $null = Get-Certificate @certParam
 }
-Get-Certificate @certParam
 
 # Verify (with Windows PowerShell)
 powershell.exe -Command "& {Get-ChildItem -Path Cert:\LocalMachine\My -SSLServerAuthentication}"
