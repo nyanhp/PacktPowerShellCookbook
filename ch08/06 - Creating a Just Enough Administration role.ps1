@@ -23,7 +23,8 @@ Set-Content .\somescript.ps1 -Value 'Write-Host "Hello $env:USERNAME!`r`nWith gr
 $scriptsToProcess = (Resolve-Path .\somescript.ps1).Path
 
 # Your role capabilities should be placed in e.g. a module, out of the users reach
-$modulePath = New-Item -ItemType Directory -Path "$PSHOME\Modules\MyJeaModule\1.0.0\RoleCapabilities" -Force
+# Due to a bug, you cannot use versioned directories at the moment
+$modulePath = New-Item -ItemType Directory -Path "$PSHOME\Modules\MyJeaModule\RoleCapabilities" -Force
 $null = New-Item -Path $modulePath.Parent -Name MyJeaModule.psm1
 $null = New-ModuleManifest -Path "$($modulePath.Parent)\MyJeaModule.psd1" -CompatiblePSEditions Core -ModuleVersion 1.0.0
 
