@@ -57,6 +57,9 @@ Add-LabMachineDefinition -Name PACKT-WB1 -Memory 4GB -DomainName contoso.com
 # Hypervisor
 Add-LabMachineDefinition -Name PACKT-HV1 -Memory 4GB -DiskName PACKT-HV1-D -DomainName contoso.com
 
+# Maybe a Linux VM
+Add-LabMachineDefinition -Name PACKT-CN1 -Memory 2GB -DomainName contoso.com -OperatingSystem 'Centos 7.4'
+
 Install-Lab
 
 Enable-LabCertificateAutoEnrollment -Computer
