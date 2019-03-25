@@ -10,14 +10,17 @@ Get-WindowsFeature -Name Web*
 # This installation requires features that are on the installation medium
 # To continue, we need to mount the Windows Server iso file
 # Execute the next command on the hypervisor
-Add-VMDvdDrive -VMName PACKT-WB1 -Path $labsources\ISOs\en_windows_server_2019_x64_dvd_4cb967d8.iso
+$isoLocation = throw "Fill this in before continuing!"
+Add-VMDvdDrive -VMName PACKT-WB1 -Path $isoLocation
 
 # Then we can install, using the side by side (sxs) folder
 Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature -IncludeManagementTools -Source D:\sources\sxs -Verbose
 
 # If the installation was successful, you should be able to find the WebAdministration module
-Get-Module -ListAvailable -Name WebAdministration
+Get-Module -ListAvailable -Name WebAdministration -SkipEditionCheck
 Get-Command -Module WebAdministration
+
+Import-WinModule Pki, WebAdministration
 
 # Request a certificate
 if (-not (Get-ChildItem Cert:\LocalMachine\my | Where-Object {$_.Subject -eq "CN=$env:COMPUTERNAME" -and $_.Issuer -like '*LabRootCA1*'}))

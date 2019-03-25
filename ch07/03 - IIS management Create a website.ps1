@@ -2,6 +2,7 @@
 # Now it is time for a web site
 
 # First things first - remove the useless default web site
+Import-WinModule WebAdministration
 Get-WebSite | Remove-WebSite
 
 # Next up: deploy your own web site, sourcing an SSL cert from your PKI
@@ -55,7 +56,7 @@ New-Website -Name 'HostOverview' -Port 443 -PhysicalPath $webDirectory.FullName 
 
 # Add the certificate
 $binding = Get-WebSite -Name HostOverview | Get-WebBinding
-$certificate = Get-ChildItem -Path Cert:\LocalMachine\My -SSLServerAuthentication
+$certificate = Get-ChildItem Cert:\LocalMachine\my | Where-Object {$_.Subject -eq "CN=$env:COMPUTERNAME" -and $_.Issuer -like '*LabRootCA1*'}
 $binding.AddSslCertificate($certificate.Thumbprint, 'My')
 
 # Browse the site

@@ -14,7 +14,7 @@ if (-not (Get-ChildItem Cert:\LocalMachine\my | Where-Object {$_.Subject -eq "CN
         Url               = 'ldap:'
         SubjectName       = "CN=$env:COMPUTERNAME"
         Template          = 'ContosoWebServer'
-        DnsName           = $env:COMPUTERNAME, ([System.Net.Dns]::GetHostByName($env:COMPUTERNAME))
+        DnsName           = $env:COMPUTERNAME, ([System.Net.Dns]::GetHostByName($env:COMPUTERNAME)).HostName
         CertStoreLocation = 'Cert:\LocalMachine\my'
     }
     

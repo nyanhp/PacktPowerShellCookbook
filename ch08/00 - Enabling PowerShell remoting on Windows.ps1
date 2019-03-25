@@ -4,6 +4,7 @@ Enable-PSRemoting -Force -Verbose
 
 # Should you need to enable remoting on public networks, you can add
 Enable-PSRemoting -Force -Verbose -SkipNetworkProfileCheck
+Get-NetFirewallRule -Name WINRM-HTTP-In-TCP | Set-NetFirewallRule -Profile Public
 
 # With that done, you can verify by looking at the session configurations
 Get-PSSessionConfiguration
