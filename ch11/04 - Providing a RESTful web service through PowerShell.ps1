@@ -12,17 +12,17 @@ Get-Command -Module Polaris
 New-PolarisGetRoute -Path "/events" -Scriptblock {
 
     # Your routes can get parameters both in the body as well as the URL
+    if ($null -ne $request.BodyString)
+    {
+        $request.Body = $request.BodyString | ConvertFrom-Json -AsHashtable
+    }
+
     $logName = $request.Query["LogName"]
     if ($request.Body -and $request.Body["LogName"]) { $logName = $request.Body["LogName"]}
 
     $parameters = @{
         LogName = $logName
-    }
-
-    if ($null -ne $request.BodyString)
-    {
-        $request.Body = $request.BodyString | ConvertFrom-Json -AsHashtable
-    }
+    }    
 
     $maxEvents = $request.Query["MaxEvents"]
     if ($request.Body -and $request.Body["MaxEvents"]) { $logName = $request.Body["MaxEvents"]}
@@ -45,8 +45,7 @@ New-PolarisGetRoute -Path "/events" -Scriptblock {
     {
         $parameters['FilterXml'] = $request.Body['FilterXml']
     }
-    $parameters.FilterHashtable | Out-Host
-    $parameters.FilterHashtable.GetType().Fullname | Out-Host
+
     # JSON serialization works better with some simple properties
     $eventEntries = Get-WinEvent @parameters | Select-Object -Property LogName, ProviderName, Id, Message, @{Name = 'XmlMessage'; Expression = {$_.ToXml()}}
     $Response.Send(($eventEntries | ConvertTo-Json));
@@ -73,10 +72,6 @@ $restParameters.Body = @{
 
 $restParameters.ContentType = 'Application/Json'
 $eventEntry = Invoke-Restmethod @restParameters
-
-# The event entries that have been retrieved of course only possess the properties you selected.
-# With the EventXml portion though, we can reconstruct the event pretty well.
-$eventEntry.Event.EventData.Data
 
 # There are countless possibilites with Polaris. You could for example provide
 # a simple, read-only API to get the current deployment status during system rollout

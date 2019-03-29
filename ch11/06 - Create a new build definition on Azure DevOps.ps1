@@ -2,7 +2,7 @@
 # This process is a bit more involved though.
 
 # With an access token, you can get started
-$accessTokenString = 'c2ucaopeolbkxocl27psa2gx6ymko5eb72btppx25tz6b5lfhxqa'
+$accessTokenString = ''
 
 # We are crafting an authorization header that bears your token
 $tokenString = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f '', $accessTokenString)))
@@ -64,12 +64,12 @@ $artifactGenerator.ToString() | Set-Content Config.ps1
 # A build script could be used to react to the test results, regardless of the pipeline
 $buildscript = {
     Install-PackageProvider -Name NuGet -Force
-    mkdir -Path C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet -Force
-    Invoke-WebRequest -Uri 'https://nuget.org/nuget.exe' -OutFile C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\nuget.exe -ErrorAction Stop
+    $null = mkdir -Path C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet -Force
+    $null = Invoke-WebRequest -Uri 'https://nuget.org/nuget.exe' -OutFile C:\ProgramData\Microsoft\Windows\PowerShell\PowerShellGet\nuget.exe -ErrorAction Stop
 
-    Install-Module -Name PackageManagement -RequiredVersion 1.1.7.0 -Force -WarningAction SilentlyContinue
-    Install-Module -Name PowerShellGet -RequiredVersion 1.6.0 -Force -WarningAction SilentlyContinue
-    Install-Module Pester -Force
+    Install-Module -Name PackageManagement -RequiredVersion 1.1.7.0 -Force -WarningAction SilentlyContinue -SkipPublisherCheck
+    Install-Module -Name PowerShellGet -RequiredVersion 1.6.0 -Force -WarningAction SilentlyContinue -SkipPublisherCheck
+    Install-Module Pester -Force -SkipPublisherCheck -WarningAction SilentlyContinue
     $results = Invoke-Pester .\Tests -PassThru -OutputFile TestResults.xml -OutputFormat NUnitXml
 
     if ($results.FailedCount -gt 0)
@@ -185,7 +185,7 @@ $buildDefinition = @{
         clean         = $false
     }
     triggers   = @{
-        branchFilters                = $refs
+        branchFilters                = "refs/heads/master"
         maxConcurrentBuildsPerBranch = 1
         pollingInterval              = 0
         triggerType                  = 2

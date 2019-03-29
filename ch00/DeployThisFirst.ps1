@@ -62,6 +62,11 @@ Add-LabMachineDefinition -Name PACKT-CN1 -Memory 2GB -DomainName contoso.com -Op
 
 Install-Lab
 
+Invoke-LabCommand -ComputerName PACKT-DC1 -ScriptBlock {
+    New-ADUser -SamAccountName elbarto -Name Bart -Surname Simpson -AccountPassword ('c0waBung4!' | ConvertTo-SecureString -AsPlaintext -Force) -Enabled $true
+    Add-ADGroupMember -Identity 'Domain Admins' -Members elbarto
+}
+
 Enable-LabCertificateAutoEnrollment -Computer
 
 New-LabCATemplate -TemplateName ContosoWebServer -DisplayName 'Web Server cert' -SourceTemplateName WebServer -ApplicationPolicy 'Server Authentication' -EnrollmentFlags Autoenrollment -PrivateKeyFlags AllowKeyExport -Version 2 -SamAccountName 'Domain Computers' -ComputerName (Get-LabIssuingCa) -ErrorAction Stop
