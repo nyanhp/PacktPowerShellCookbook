@@ -10,3 +10,10 @@ gcloud init
 
 # Now it is possible to retrieve data, for example your project's buckets
 Get-GcsBucket
+
+# To store your access token more permanently, use the following command.
+# It will point you to a browser where you allow the client libs to authenticate you
+gcloud auth application-default login
+
+# This enables us to get the access token for API requests
+gcloud auth application-default print-access-token

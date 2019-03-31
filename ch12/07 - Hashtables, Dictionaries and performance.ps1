@@ -9,10 +9,14 @@ $hashtable = @{ }
 Get-ADUser -Filter * | ForEach-Object {$hashtable.Add($_.SamAccountName, $_)}
 
 # Accessing an element via the index is very fast
+# Execute this line by line
 $foundYou = $hashtable.elbarto # Total milliseconds: 0.4 !
+(Get-History -Count 1).Duration
 
 # While looking for a value is mega-slow
+# Execute this line by line
 $hashtable.ContainsValue($foundYou) # Total milliseconds: 21.6 !
+(Get-History -Count 1).Duration
 
 # You already saw Group-Object with the AsHashtable parameter.
 $allTheEvents = Get-WinEvent -LogName System | Group-Object -Property LevelDisplayName -AsHashTable -AsString
@@ -26,3 +30,15 @@ $allTheEvents = Get-WinEvent -LogName Security | Group-Object -Property EventID
 
 # Despite appearances, the key is of course still not like a 0-based array index
 $allTheEvents.4624
+
+# By the way: You can also create proper Dictionaries!
+# That way you can ensure that keys and values are always of the correct type
+$dictionary = New-Object -TypeName 'System.Collections.Generic.Dictionary[string,System.Diagnostics.Process]'
+
+# This dictionary uses a string key and a Process value
+Get-Process | foreach {$dictionary[$_.ProcessName] = $_} # never mind the duplicates...
+$dictionary.pwsh # Super fast access again
+
+# What happens now when wrong key-value pairs are used?
+$dictionary[(Get-Date)] = Get-Process -Id $pid # No problem so far. (Get-Date) is converted to a string
+$dictionary.SomeProcess = Get-Item .           # Terminates.

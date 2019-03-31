@@ -31,6 +31,7 @@ Add-LabDiskDefinition -Name PACKT-FS-A-F -DiskSizeInGb 5 -SkipInitialize
 Add-LabDiskDefinition -Name PACKT-FS-B-F -DiskSizeInGb 5 -SkipInitialize
 Add-LabDiskDefinition -Name PACKT-FS-C-F -DiskSizeInGb 5 -SkipInitialize
 Add-LabDiskDefinition -Name PACKT-HV1-D -DiskSizeInGb 50
+Add-LabDiskDefinition -Name PACKT-HV2-D -DiskSizeInGb 50
 
 #Domain Controller
 $roles = @(
@@ -51,11 +52,16 @@ Add-LabMachineDefinition -Name PACKT-FS-A -Roles FileServer -IpAddress 192.168.5
 Add-LabMachineDefinition -Name PACKT-FS-B -Roles FileServer -IpAddress 192.168.56.18 -DiskName PACKT-FS-B-D, PACKT-FS-B-E, PACKT-FS-B-F -DomainName contoso.com
 Add-LabMachineDefinition -Name PACKT-FS-C -Roles FileServer -IpAddress 192.168.56.25 -DiskName PACKT-FS-C-D, PACKT-FS-C-E, PACKT-FS-C-F -DomainName contoso.com
 
+# Later to be joined
+Add-LabMachineDefinition -Name NEWVM01 -IpAddress 192.168.56.101
+Add-LabMachineDefinition -Name NEWVM02 -IpAddress 192.168.56.102
+
 # Web Server to be, RDS Host
 Add-LabMachineDefinition -Name PACKT-WB1 -Memory 4GB -DomainName contoso.com
 
 # Hypervisor
 Add-LabMachineDefinition -Name PACKT-HV1 -Memory 4GB -DiskName PACKT-HV1-D -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-HV2 -Memory 4GB -DiskName PACKT-HV2-D -DomainName contoso.com
 
 # Maybe a Linux VM
 Add-LabMachineDefinition -Name PACKT-CN1 -Memory 2GB -DomainName contoso.com -OperatingSystem 'Centos 7.4'
@@ -71,18 +77,17 @@ Enable-LabCertificateAutoEnrollment -Computer
 
 New-LabCATemplate -TemplateName ContosoWebServer -DisplayName 'Web Server cert' -SourceTemplateName WebServer -ApplicationPolicy 'Server Authentication' -EnrollmentFlags Autoenrollment -PrivateKeyFlags AllowKeyExport -Version 2 -SamAccountName 'Domain Computers' -ComputerName (Get-LabIssuingCa) -ErrorAction Stop
 
-Stop-LabVm -ComputerName PACKT-HV1 -Wait
-Get-Vm -VMName PACKT-HV1 | Set-VMProcessor -ExposeVirtualizationExtensions $true
-Start-LabVm -ComputerName PACKT-HV1 -Wait
+Stop-LabVm -ComputerName PACKT-HV1,PACKT-HV2 -Wait
+Get-Vm -VMName PACKT-HV1,PACKT-HV2 | Set-VMProcessor -ExposeVirtualizationExtensions $true
+Start-LabVm -ComputerName PACKT-HV1,PACKT-HV2 -Wait
 
 $pscore = Get-LabInternetFile -Uri https://github.com/PowerShell/PowerShell/releases/download/v6.1.3/PowerShell-6.1.3-win-x64.msi -PassThru -path $labsources\Tools -FileName pscore.msi -Force
 
 Install-LabSoftwarePackage -Path $pscore.FullName -ComputerName (Get-LabVm)
-Copy-LabFileItem -Path (Get-LabVm PACKT-HV1).OperatingSystem.BaseDiskPath -Destination D: -ComputerName PACKT-HV1
-Save-Module -Path $labsources\Tools -Name ComputerManagementDsc,NetworkingDsc
-Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc -ComputerName packt-hv1 -Destination 'C:\Program Files\PowerShell\6\Modules'
-Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc -ComputerName packt-hv1 -Destination 'C:\Program Files\WindowsPowerShell\Modules'
-Install-LabWindowsFeature -ComputerName packt-hv1 -FeatureName Hyper-V -IncludeAllSubFeature -IncludeManagementTools
-Restart-LabVm -ComputerName packt-hv1
+Copy-LabFileItem -Path (Get-LabVm PACKT-HV1).OperatingSystem.BaseDiskPath -Destination D: -ComputerName PACKT-HV1,PACKT-HV2
+Save-Module -Path $labsources\Tools -Name ComputerManagementDsc,NetworkingDsc,StorageDsc,xFailoverCluster,xHyper-V
+Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc,$labsources\Tools\StorageDsc,$labsources\Tools\xFailoverCluster,$labsources\Tools\xHyper-V -ComputerName packt-hv1,PACKT-HV2 -Destination 'C:\Program Files\PowerShell\6\Modules'
+Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc,$labsources\Tools\StorageDsc,$labsources\Tools\xFailoverCluster,$labsources\Tools\xHyper-V -ComputerName packt-hv1,PACKT-HV2 -Destination 'C:\Program Files\WindowsPowerShell\Modules'
+Restart-LabVm -ComputerName packt-hv1,PACKT-HV2
 
 Show-LabDeploymentSummary -Detailed

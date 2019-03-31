@@ -39,3 +39,7 @@ foreach ($item in $collection)
 }
 
 Get-Job -Name Queue* | Wait-Job # Wait for remaining jobs
+
+# PowerShell Core actually defines another operator, the ampersand
+$job = Start-Sleep -Seconds 30 &
+$job | Wait-Job
