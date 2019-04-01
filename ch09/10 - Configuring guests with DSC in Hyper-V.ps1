@@ -66,7 +66,7 @@ $confData = @{
 BaseLine -ConfigurationData $confData
 
 # Now things are a tiny bit different
-$sessions = New-PSSession -VMName NEWVM01,NEWVM02 -Credential administrator
+$sessions = New-PSSession -VMName NEWVM01,NEWVM02 -Credential Install
 
 # Copy module and mof
 foreach ($session in $sessions)

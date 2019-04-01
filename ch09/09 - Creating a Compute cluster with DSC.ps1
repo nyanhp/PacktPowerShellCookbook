@@ -6,9 +6,9 @@ $confData = @{
     # Reserved Key first
     AllNodes = @(
         @{
-            NodeName                      = '*'
+            NodeName                    = '*'
             PSDSCAllowPlaintextPassword = $true
-            PSDSCAllowDomainUser          = $true
+            PSDSCAllowDomainUser        = $true
         }
         @{
             NodeName = 'PACKT-HV1'
@@ -45,60 +45,58 @@ configuration TheCluster
         }
 
         # Features
-        WindowsFeatureSet setto
+        $itDepends = @()
+        foreach ($feature in @("Hyper-V", 'Failover-Clustering', 'Multipath-IO', 'RSAT-Shielded-VM-Tools', 'RSAT-Clustering-Powershell', 'Hyper-V-PowerShell'))
         {
-            Name                 = @(
-                "Hyper-V"
-                'Failover-Clustering'
-                'Multipath-IO'
-                'RSAT-Shielded-VM-Tools'
-                'RSAT-Clustering-Powershell'
-                'Hyper-V-PowerShell'
-            )
-            IncludeAllSubFeature = $true
+            $itDepends += "[WindowsFeature]$feature"
+            WindowsFeature $feature
+            {
+                Name                 = $feature
+                IncludeAllSubFeature = $true
+            }
         }
 
         Disk DDrive
         {
-            DiskId = 1
-            DriveLetter = 'D'
-            DiskIdType = 'Number'
-            PartitionStyle = 'GPT'
-            FSFormat = 'ReFS'
+            DiskId           = 1
+            DriveLetter      = 'D'
+            DiskIdType       = 'Number'
+            PartitionStyle   = 'GPT'
+            FSFormat         = 'ReFS'
             AllowDestructive = $true
         }
 
         File Disks
         {
-            DependsOn = '[Disk]DDrive'
+            DependsOn       = '[Disk]DDrive'
             DestinationPath = 'D:\Disks'
-            Type = 'Directory'
-            Ensure = 'Present'
+            Type            = 'Directory'
+            Ensure          = 'Present'
         }
 
         File VMs
         {
-            DependsOn = '[Disk]DDrive'
+            DependsOn       = '[Disk]DDrive'
             DestinationPath = 'D:\VMs'
-            Type = 'Directory'
-            Ensure = 'Present'
+            Type            = 'Directory'
+            Ensure          = 'Present'
         }
 
         xVMHost hv
         {
-            DependsOn = '[WindowsFeatureSet]setto','[File]Disks','[File]VMs'
-            IsSingleInstance = 'Yes'
+            DependsOn                 = $itDepends, '[File]Disks', '[File]VMs'
+            IsSingleInstance          = 'Yes'
             EnableEnhancedSessionMode = $true
-            VirtualHardDiskPath = 'D:\Disks'
-            VirtualMachinePath = 'D:\VMs'
+            VirtualHardDiskPath       = 'D:\Disks'
+            VirtualMachinePath        = 'D:\VMs'
         }
 
         xCluster $Node.Cluster
         {
-            Name = $Node.Cluster
+            Name                          = $Node.Cluster
             DomainAdministratorCredential = $ConfigurationData.Domain.DomainJoinCredential
-            DependsOn = '[WindowsFeatureSet]setto', '[Computer]computer'
-            StaticIPAddress = '192.168.56.199'
+            DependsOn                     = $itDepends, '[Computer]computer'
+            StaticIPAddress               = '192.168.56.199'
         }
     }
 }
@@ -110,12 +108,12 @@ TheCluster -ConfigurationData $confData
 [DscLocalConfigurationManager()]
 configuration LcmSettings
 {
-    node @('PACKT-HV1','PACKT-HV2')
+    node @('PACKT-HV1', 'PACKT-HV2')
     {
         Settings
         {
             RebootNodeIfNeeded = $true
-            ConfigurationMode = 'ApplyAndAutoCorrect'
+            ConfigurationMode  = 'ApplyAndAutoCorrect'
         }
     }
 }
@@ -123,7 +121,7 @@ configuration LcmSettings
 LcmSettings
 
 # Create sessions
-$sessions = New-CimSession -ComputerName PACKT-HV1,PACKT-HV2 -Credential $confData.Domain.DomainJoinCredential
+$sessions = New-CimSession -ComputerName PACKT-HV1, PACKT-HV2 -Credential $confData.Domain.DomainJoinCredential
 
 # Configure LCM
 Set-DscLocalConfigurationManager -CimSession $sessions -Path .\LcmSettings -Verbose

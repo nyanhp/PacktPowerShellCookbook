@@ -1,4 +1,5 @@
 # Compute in Hyper-V can be boiled down to a few cmdlets
+Get-Command -Noun VM*
 
 # Create your first VM with the disks from recipe 5
 # The Generation cannot be changed afterwards.
@@ -22,6 +23,15 @@ Start-VM -VM $group.VMMembers
 
 # e.g. spawning multiple VMConnect dialogs
 vmconnect.exe localhost $group.VMMembers.Name
+
+# To create a snapshot
+Checkpoint-VM -Name $group.VMMembers.Name -SnapshotName BeforeDsc
+
+# Resolve a snapshot
+Get-VMSnapshot -VMName $group.VMMembers.Name | Restore-VMSnapshot -Confirm:$false
+
+# Remove the snapshot
+Remove-VMSnapShot -VMName $group.VMMembers.Name
 
 # Clean up again
 $vm | Remove-Vm -Force
