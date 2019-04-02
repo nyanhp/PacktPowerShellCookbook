@@ -2,9 +2,8 @@
 # Often Get and Set cmdlets are connected
 Get-Service -Name spooler | Set-Service -Status Stopped
 
-# The pipeline also works with empty collections. In this case, Set-PSSessionConfiguration does not need to be called
-# This cmdlet only works in an administrative context.
-Get-PSSessionConfiguration -Name *SomeSession* | Set-PSSessionConfiguration -ShowSecurityDescriptorUI
+# The pipeline also works with empty collections. In this case, Stop-Process does not need to be called
+Get-Process -Name *Idonotexist* | Stop-Process -WhatIf
 
 # Regardless of how many objects Get-Process returns,
 # Stop-Process processes each individual one

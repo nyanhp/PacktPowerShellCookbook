@@ -1,3 +1,8 @@
+if ((Split-Path $pwd.Path -Leaf) -ne 'ch06')
+{
+    Set-Location ./ch06
+}
+
 # No service cmdlets yet
 Get-Command -Noun Service
 

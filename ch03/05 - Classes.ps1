@@ -1,4 +1,7 @@
-Set-Location $PSScriptRoot
+if ((Split-Path $pwd.Path -Leaf) -ne 'ch03')
+{
+    Set-Location .\ch03
+}
 
 # Compile and import C# code on the fly
 Add-Type -Path '.\05 - ClassesDotNet.cs'

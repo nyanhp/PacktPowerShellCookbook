@@ -1,10 +1,10 @@
 # PowerShell's processing cmdlet is Foreach-Object
 # Taken very literal, we do things for each object
-Get-ChildItem -File | ForEach-Object -Process {Get-FileHash -Path $_.FullName}
+Get-ChildItem -File | ForEach-Object -Process { Get-FileHash -Path $_.FullName }
 
 # With the range operator, you have a very simple collection to iterate over
 # The output of Foreach-Object will be whatever is returned in the script blocks
-$files = 1..10 | ForEach-Object -Process {New-TemporaryFile}
+$files = 1..10 | ForEach-Object -Process { New-TemporaryFile }
 
 # Foreach-Object can also be used, albeit a bit too complicated, to expand property values
 # or execute methods by specifying the name of the member
@@ -24,7 +24,7 @@ $files | ForEach-Object -Begin {
 
 # Like the Where method, the Foreach method can be used instead of Foreach-Object
 # Arguments are script blocks, member names or data types to convert to
-$files.ForEach( {Get-FileHash -Path $_.FullName})
+$files.ForEach( { Get-FileHash -Path $_.FullName })
 # Method calls
 $files.ForEach('ToString')
 # Type conversions for collections
@@ -65,16 +65,16 @@ $hashtable = @{
 
 # While there is output, it looks wrong - the entire hashtable is used as a single object
 # This is because hashtables do not use a traditional zero-based index
-$hashtable | ForEach-Object {Write-Host "Key: $($_.Key), Value $($_.Value)"}
+$hashtable | ForEach-Object { Write-Host "Key: $($_.Key), Value $($_.Value)" }
 
 # With an Enumerator, we can start the iteration for real
-$hashtable.GetEnumerator() | ForEach-Object {Write-Host "Key: $($_.Key), Value $($_.Value)"}
+$hashtable.GetEnumerator() | ForEach-Object { Write-Host "Key: $($_.Key), Value $($_.Value)" }
 
 # Performance comparison
-Measure-Command {1..1000 | ForEach-Object {$_}} # 43ms
-Measure-Command {(1..1000).Foreach( {$_})} # 33ms
+Measure-Command { 1..1000 | ForEach-Object { $_ } } | Select-Object TotalMilliSeconds # 43ms
+Measure-Command { (1..1000).Foreach( { $_ }) } | Select-Object TotalMilliSeconds # 33ms
 Measure-Command { # 12ms
     foreach ($i in 1..1000)
     {
         $i
-    }}
+    } } | Select-Object TotalMilliSeconds

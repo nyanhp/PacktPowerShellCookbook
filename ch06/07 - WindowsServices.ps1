@@ -1,3 +1,8 @@
+if ((Split-Path $pwd.Path -Leaf) -ne 'ch06')
+{
+    Set-Location .\ch06
+}
+
 # Build the dummy service template
 dotnet build .\project1
 

@@ -14,7 +14,7 @@ Get-Command -Module Az.ContainerInstance
 $param = @{
     ResourceGroupName = 'MyContainers'
     Name = 'luckynumber7'
-    Image = "$($containerRegistry.LoginServer)/luckynumber:v2"
+    Image = "$($containerRegistry.LoginServer)/luckynumber:v1"
     OsType = 'Windows'
     IpAddressType = 'Public'
     Port = 8080
@@ -29,7 +29,8 @@ New-AzContainerGroup @param
 Get-AzContainerGroup
 
 # Try it!
-Invoke-RestMethod -Method Get -Uri "http://$((Get-AzContainerGroup).IpAddress):8080/containerizedapi"
+$ip = (Get-AzContainerGroup).IpAddress
+Invoke-RestMethod -Method Get -Uri "http://$($ip):8080/containerizedapi"
 
 # What is our container doing? Retrieve all output
 Get-AzContainerInstanceLog -ResourceGroupName MyContainers -ContainerGroupName luckynumber7

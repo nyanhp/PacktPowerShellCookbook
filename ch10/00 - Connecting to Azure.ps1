@@ -7,6 +7,9 @@ Get-AzVm
 # To work with Azure, you need to log in once
 Connect-AzAccount
 
+# Which subscriptions can you use?
+Get-AzSubscription
+
 # If you have access to more than one subscription, you can set a default one
 Set-AzContext -Subscription 'JHPaaS'
 

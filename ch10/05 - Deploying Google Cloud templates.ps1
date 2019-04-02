@@ -39,9 +39,9 @@ Get-GceManagedInstanceGroup
 # Clean up again
 Remove-GceManagedInstanceGroup -Name manni -Zone europe-west3-a
 
-
+$project = Get-GcpProject -Name testproject
 $template = @{
-    "name"        = "vm-conf1"
+    "name"        = "vm-conf2"
     "description" = ""
     "properties"  = @{
         "machineType"       = "n1-standard-1"
@@ -61,7 +61,7 @@ $template = @{
                 "boot"             = $true
                 "mode"             = "READ_WRITE"
                 "autoDelete"       = $true
-                "deviceName"       = "vm-conf1"
+                "deviceName"       = "vm-conf2"
                 "initializeParams" = @{
                     "sourceImage" = "projects/centos-cloud/global/images/centos-7-v20190326"
                     "diskType"    = "pd-standard"
@@ -83,7 +83,7 @@ $template = @{
         "networkInterfaces" = @(
             @{
                 
-                "network"       = "projects/tidy-shard-235718/global/networks/default"
+                "network"       = "projects/$($project.ProjectId)/global/networks/default"
                 "accessConfigs" = @(
                     @{
                         

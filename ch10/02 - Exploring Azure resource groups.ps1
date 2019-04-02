@@ -18,3 +18,6 @@ Set-AzResourceGroup -Name JHP_VMDisks -Tag $tags
 
 # To export a template you can use for a resource group deployment, use:
 Export-AzResourceGroup -ResourceGroupName JHP_VMDisks -Path .
+
+# And of course to remove one
+Remove-AzResourceGroup -ResourceGroupName JHP_VMDisks -Force

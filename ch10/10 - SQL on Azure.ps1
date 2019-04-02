@@ -1,7 +1,7 @@
 # Deploying traditional SQL workloads on Azure is fairly simple
 
 # If PaaS is enough for you:
-Get-Command -Noun AzSqlDatabase*,AzSqlServer*
+Get-Command -Noun AzSqlDatabase*, AzSqlServer*
 
 # Create a new server
 New-AzResourceGroup -Name SqlDatabases -Location westeurope
@@ -11,8 +11,19 @@ $name = -join (1..12 | ForEach-Object { Get-Random -Min 0 -Max 9 }) # should be 
 New-AzSqlServer -ResourceGroupName SqlDatabases -ServerName $name -SqlAdministratorCredentials $adminCredential -Location westeurope
 
 # The next bit is important if you ever want to manage your SQL databases remotely...
-$publicIp = Get-PublicIpAddress
-$serverFirewallRule = New-AzSqlServerFirewallRule -ResourceGroupName SqlDatabases -ServerName $name -FirewallRuleName "AllowedIPs" -StartIpAddress $publicIp -EndIpAddress $publicIp
+if (-not (Get-Command Get-PublicIpAddress))
+{
+    Install-Module AutomatedLab.Common -Scope CurrentUser
+}
+
+$param = @{
+    ResourceGroupName = 'SqlDatabases'
+    ServerName        = $name
+    FirewallRuleName  = "AllowedIPs"
+    StartIpAddress    = Get-PublicIpAddress
+    EndIpAddress      = Get-PublicIpAddress
+}
+$serverFirewallRule = New-AzSqlServerFirewallRule @param
 
 # Create a new database on your server
 New-AzSqlDatabase -DatabaseName db01 -ServerName $name -ResourceGroupName SqlDatabases

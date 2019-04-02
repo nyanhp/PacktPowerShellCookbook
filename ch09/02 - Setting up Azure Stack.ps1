@@ -23,7 +23,7 @@ Get-Disk | Where-Object PartitionStyle -eq raw | Initialize-Disk -PartitionStyle
 Get-Partition -DriveLetter C | Resize-Partition -Size 255GB
 Invoke-WebRequest -Uri https://azurestack.azureedge.net/masdownloader-preview/1.0.3.1090/AzureStackDownloader.exe -OutFile D:\az.exe
 Start-Process d:\az.exe
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}','HKCU:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}' -Name IsInstalled -Value 0
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}', 'HKCU:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}' -Name IsInstalled -Value 0
 
 # Follow on-screen instructions. In the meantime
 Add-WindowsFeature Hyper-V, Failover-Clustering, Web-Server, NetworkController, RemoteAccess -IncludeManagementTools
@@ -56,7 +56,7 @@ $replaceVirt = "\(\`$Parameters.OEMModel -eq 'Hyper-V'\)"
 $content = (Get-Content -Path "C:\CloudDeployment\Roles\PhysicalMachines\Tests\BareMetal.Tests.ps1") -replace $replaceCpu, 1000 -replace $replaceVirt, '$true'
 $content | Set-Content -path "C:\CloudDeployment\Roles\PhysicalMachines\Tests\BareMetal.Tests.ps1" -encoding utf8
 $content = Get-Content -Path 'C:\CloudDeployment\Common\Helpers.psm1'
-$content = $content | ForEach-Object {if ($_ -like '*packagesavemode "nuspec"*'){$_ + " -ExcludeVersion"}else{$_}}
+$content = $content | ForEach-Object { if ($_ -like '*packagesavemode "nuspec"*') { $_ + " -ExcludeVersion" }else { $_ } }
 $content | Set-Content -Path 'C:\CloudDeployment\Common\Helpers.psm1' -encoding utf8
 
 # When done, run
@@ -71,31 +71,27 @@ C:\CloudDeployment\Setup\InstallAzureStackPOC.ps1 @param
 # Then wait. Get a coffee, read a good book, for example Learn PowerShell Core (David das Neves, Jan-Hendrik Peters)
 # If the deployment fails, it can sadly have many reasons. If one of them is CredSSP
 # Please run the following
-Invoke-Command -VMName AzS-DC01 -Credential ([pscredential]::new('Administrator',$pw)) -ScriptBlock {
+Invoke-Command -VMName AzS-DC01 -Credential ([pscredential]::new('Administrator', $pw)) -ScriptBlock {
     Enable-WSManCredSSP -Role Server -Force
 }
 
 # If EVERYTHING is finished, your portal is accessible
-start https://adminportal.local.azurestack.external/
+Start-Process https://adminportal.local.azurestack.external/
 
 # Now to prepare for the rest
 # Download the tools archive.
-cd /
+Set-Location /
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 
-invoke-webrequest `
-  https://github.com/Azure/AzureStack-Tools/archive/master.zip `
-  -OutFile master.zip
+Invoke-WebRequest  -Uri https://github.com/Azure/AzureStack-Tools/archive/master.zip -OutFile master.zip
 
 # Expand the downloaded files.
-expand-archive master.zip `
-  -DestinationPath . `
-  -Force
-
-# Change to the tools directory.
-cd AzureStack-Tools-master
+Expand-Archive master.zip  -DestinationPath . -Force
+Set-Location AzureStack-Tools-master
 
 # Install AzureStack module
-Install-Module AzureStack -Force
+Install-Module AzureRM -RequiredVersion 2.4.0
+Install-Module -Name AzureStack -RequiredVersion 1.7.0
+Import-Module .\Registration\RegisterWithAzure.psm1
 
 # Connect your OWN Azure account
 Add-AzureRmAccount
@@ -104,6 +100,13 @@ Add-AzureRmAccount
 Register-AzureRmResourceProvider -ProviderNamespace Microsoft.AzureStack
 
 # Register (more details: https://docs.microsoft.com/en-us/azure/azure-stack/asdk/asdk-register)
-$CloudAdminCred = [pscredential]::New('AzureStack\CloudAdmin',$pw)
+$CloudAdminCred = [pscredential]::New('AzureStack\CloudAdmin', $pw)
 $RegistrationName = "<unique-registration-name>" # Fill this in yourself!
-Set-AzsRegistration -PrivilegedEndpointCredential $CloudAdminCred -PrivilegedEndpoint AzS-ERCS01 -BillingModel Development -RegistrationName $RegistrationName
+$param = @{
+    PrivilegedEndpointCredential = $CloudAdminCred
+    PrivilegedEndpoint           = 'AzS-ERCS01'
+    BillingModel                 = 'Development'
+    RegistrationName             = $RegistrationName
+}
+
+Set-AzsRegistration @param
