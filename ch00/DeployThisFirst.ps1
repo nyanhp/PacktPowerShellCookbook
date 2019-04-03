@@ -1,4 +1,17 @@
-$labName = 'chapter7'
+#requires -RunAsAdministrator
+
+if (-not (Get-Module AutomatedLab -List))
+{
+    $null = Install-PackageProvider -Name nuget -Force
+    Install-Module powershell-yaml,newtonsoft.json,automatedlab,automatedlab.ships -Force
+    [System.Environment]::SetEnvironmentVariable('AUTOMATEDLAB_TELEMETRY_OPTOUT', 'yes') # opt in to telemetry if you like, it helps us!
+    Enable-LabHostRemoting -Force
+    $null = New-LabSourcesFolder -Drive C -Force
+}
+
+$null = Read-Host -Prompt "Please store your ISO files in $(Get-LabSourcesLocationInternal -Local) and press any key to continue"
+
+$labName = 'PSCookBook'
 
 #create an empty lab template and define where the lab XML files and the VMs will be stored
 New-LabDefinition -Name $labName -DefaultVirtualizationEngine HyperV
@@ -57,7 +70,7 @@ Add-LabMachineDefinition -Name NEWVM01 -IpAddress 192.168.56.101
 Add-LabMachineDefinition -Name NEWVM02 -IpAddress 192.168.56.102
 
 # Web Server to be, RDS Host
-Add-LabMachineDefinition -Name PACKT-WB1 -Memory 4GB -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-WB1 -DomainName contoso.com
 
 # Hypervisor
 Add-LabMachineDefinition -Name PACKT-HV1 -Memory 4GB -DiskName PACKT-HV1-D -DomainName contoso.com
