@@ -97,10 +97,13 @@ Start-LabVm -ComputerName PACKT-HV1,PACKT-HV2 -Wait
 $pscore = Get-LabInternetFile -Uri https://github.com/PowerShell/PowerShell/releases/download/v6.1.3/PowerShell-6.1.3-win-x64.msi -PassThru -path $labsources\Tools -FileName pscore.msi -Force
 
 Install-LabSoftwarePackage -Path $pscore.FullName -ComputerName (Get-LabVm)
+Save-Module -Name WindowsCompatibility -Path $labsources\Tools
+Copy-LabFileItem -Path $labsources\Tools\WindowsCompatibility -Destination 'C:\Program Files\PowerShell\6\Modules'
 Copy-LabFileItem -Path (Get-LabVm PACKT-HV1).OperatingSystem.BaseDiskPath -Destination D: -ComputerName PACKT-HV1,PACKT-HV2
 Save-Module -Path $labsources\Tools -Name ComputerManagementDsc,NetworkingDsc,StorageDsc,xFailoverCluster,xHyper-V
 Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc,$labsources\Tools\StorageDsc,$labsources\Tools\xFailoverCluster,$labsources\Tools\xHyper-V -ComputerName packt-hv1,PACKT-HV2 -Destination 'C:\Program Files\PowerShell\6\Modules'
 Copy-LabFileItem -Path $labsources\Tools\ComputerManagementDsc,$labsources\Tools\NetworkingDsc,$labsources\Tools\StorageDsc,$labsources\Tools\xFailoverCluster,$labsources\Tools\xHyper-V -ComputerName packt-hv1,PACKT-HV2 -Destination 'C:\Program Files\WindowsPowerShell\Modules'
 Restart-LabVm -ComputerName packt-hv1,PACKT-HV2
+
 
 Show-LabDeploymentSummary -Detailed
