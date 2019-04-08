@@ -37,11 +37,11 @@ $cluster = Add-GkeCluster @clusterParameter
 # Add kubectl if not done yet
 if (-not (Get-Command kubectl -ErrorAction SilentlyContinue))
 {
-    gcloud.cmd components install kubectl
+    gcloud components install kubectl
 }
 
 # Now, store the credential information
-gcloud.cmd container clusters get-credentials kube001
+gcloud container clusters get-credentials kube001
 
 # With that done, deploy!
 $project = Get-GcpProject -Name testproject
