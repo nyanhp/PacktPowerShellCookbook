@@ -1,6 +1,6 @@
 # Pipelines connect input and output
 # Often Get and Set cmdlets are connected
-Get-Service -Name spooler | Set-Service -Status Stopped
+Get-Service -Name spooler | Set-Service -Status Stopped -WhatIf
 
 # The pipeline also works with empty collections. In this case, Stop-Process does not need to be called
 Get-Process -Name *Idonotexist* | Stop-Process -WhatIf
@@ -37,7 +37,7 @@ Get-Help Stop-Computer -Parameter ComputerName
 
 # With this in mind and with access to the AD cmdlets, you can use Get-ADComputer
 # to retrieve objects that have the property CN which binds to ComputerName
-Get-ADComputer -SearchBase 'OU=RebootOU,DC=contoso,DC=com' -Properties CN | Stop-Computer -WhatIf
+Get-ADComputer -SearchBase 'OU=RebootOU,DC=contoso,DC=com' -Properties CN -Filter * | Stop-Computer -WhatIf
 
 # Have a look at all cmdlets and their parameter aliases
 $ignoredParameters = 'WhatIf','Confirm','ErrorAction','ErrorVariable','WarningAction','InformationAction','OutBuffer','WarningVariable','OutVariable','PipelineVariable','InformationVariable','Verbose','Debug'

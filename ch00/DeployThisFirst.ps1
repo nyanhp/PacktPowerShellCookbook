@@ -84,6 +84,8 @@ Install-Lab
 Invoke-LabCommand -ComputerName PACKT-DC1 -ScriptBlock {
     New-ADUser -SamAccountName elbarto -Name Bart -Surname Simpson -AccountPassword ('c0waBung4!' | ConvertTo-SecureString -AsPlaintext -Force) -Enabled $true
     Add-ADGroupMember -Identity 'Domain Admins' -Members elbarto
+    New-ADOrganizationalUnit -Name RebootOU
+    Get-ADComputer -Filter 'Name -like "*FS*"' | Move-ADObject -TargetPath 'OU=RebootOU,DC=contoso,DC=com'
 }
 
 Enable-LabCertificateAutoEnrollment -Computer
