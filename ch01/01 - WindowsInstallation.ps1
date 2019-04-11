@@ -1,6 +1,6 @@
 #region Installation through MSI
 $path = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath pwsh.msi
-Invoke-WebRequest -Uri 'https://github.com/PowerShell/PowerShell/releases/download/v6.1.0/PowerShell-6.1.0-win-x64.msi' -OutFile $path
+Invoke-WebRequest -Uri 'https://github.com/PowerShell/PowerShell/releases/download/v6.2.0/PowerShell-6.2.0-win-x64.msi' -OutFile $path
 $installation = Start-Process -FilePath msiexec -ArgumentList "/i `"$path`"", "/L*v `"$path.log`"", '/qn' -PassThru -Wait -NoNewWindow
 
 if ($installation.ExitCode -in 0, 3010)

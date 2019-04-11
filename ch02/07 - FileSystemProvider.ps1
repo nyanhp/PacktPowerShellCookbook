@@ -62,6 +62,6 @@ Add-Content -Path $home\testfile -Value 'Another new line'
 Get-Content -Path $home\testfile
 
 # The file system provider is one that allows mounting more provider drives
-New-PSDrive -Name onlyInShell -Root \\someserver\someshare -PSProvider FileSystem
+New-PSDrive -Name onlyInShell -Root \\PACKT-DC1\NETLOGON -PSProvider FileSystem -Credential ([pscredential]::new('contoso\Install', ('Somepass1' |ConvertTo-SecureString -AsPlaintext -Force)))
 Get-ChildItem -Path onlyInShell:
 Remove-PSDrive -Name onlyInShell

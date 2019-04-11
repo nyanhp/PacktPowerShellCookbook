@@ -30,14 +30,14 @@ $file.CopyTo
 # Performance of .NET calls versus cmdlets
 Measure-Command -Expression {
     Get-ChildItem -Recurse -File -Path / -ErrorAction SilentlyContinue
-}
+} # Total seconds 93
 
 Measure-Command -Expression {
     $root = Get-Item -Path /
     $options = [System.IO.EnumerationOptions]::new()
     $options.RecurseSubdirectories = $true
     $root.GetFiles('*', $options)
-}
+} # Total seconds 13
 
 # Method calls may or may not return values
 $process = Get-Process -Id $PID

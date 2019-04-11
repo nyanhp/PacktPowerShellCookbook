@@ -4,7 +4,7 @@ if (-not (Get-Module AutomatedLab -List))
 {
     $null = Install-PackageProvider -Name nuget -Force
     Install-Module powershell-yaml,newtonsoft.json,automatedlab,automatedlab.ships -Force
-    [System.Environment]::SetEnvironmentVariable('AUTOMATEDLAB_TELEMETRY_OPTOUT', 'yes') # opt in to telemetry if you like, it helps us!
+    [System.Environment]::SetEnvironmentVariable('AUTOMATEDLAB_TELEMETRY_OPTOUT', 'yes') # opt in to telemetry if you like, it helps us! To opt in, change yes to no here
     Enable-LabHostRemoting -Force
     $null = New-LabSourcesFolder -Drive C -Force
 }

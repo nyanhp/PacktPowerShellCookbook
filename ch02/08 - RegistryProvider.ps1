@@ -54,8 +54,9 @@ Remove-PSDrive -Name HKCR
 # Remotely mapping hives with .NET
 # Your preferred method should be Invoke-Command!
 # Your security context must match, DCOM and RPC will be used
-$remoteKey = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', 'MyHost', 'Registry64')
-$remoteUserKey = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('CurrentUser', 'MyHost', 'Registry64')
+# Try this on any server in the lab environment
+$remoteKey = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', 'PACKT-FS-A', 'Registry64')
+$remoteUserKey = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('CurrentUser', 'PACKT-FS-A', 'Registry64')
 
 # Open a subkey in the hive. An optional boolean value indicates if write access is requested
 $remoteKey.OpenSubKey('SOFTWARE\Microsoft\Windows NT\CurrentVersion').GetValueNames()

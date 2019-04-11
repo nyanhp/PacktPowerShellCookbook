@@ -1,3 +1,7 @@
+if ((Split-Path $pwd.Path -Leaf) -ne 'ch02')
+{
+    Set-Location .\ch02
+}
 # Install SHiPS
 Install-Module -Name SHiPS -Force -Scope CurrentUser
 

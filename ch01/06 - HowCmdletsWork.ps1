@@ -8,7 +8,7 @@ Get-ChildItem *.txt $home
 Get-ChildItem -Filter *.txt -Path $home
 
 # Use variables as arguments
-$processName  = 'powershell'
+$processName  = 'pwsh'
 Get-Process $processName
 Get-Process $pid
 
