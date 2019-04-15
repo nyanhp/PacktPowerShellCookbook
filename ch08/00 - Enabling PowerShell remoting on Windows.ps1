@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # While PSRemoting on Windows is already enabled for Windows PowerShell
 # it needs to enabled for PowerShell Core
 Enable-PSRemoting -Force -Verbose

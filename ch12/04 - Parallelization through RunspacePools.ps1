@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # There are many modules using runspaces. We will use AutomatedLab.Common
 Install-Module AutomatedLab.Common -Scope CurrentUser
 

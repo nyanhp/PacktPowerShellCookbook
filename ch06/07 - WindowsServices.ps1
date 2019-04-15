@@ -3,6 +3,11 @@ if ((Split-Path $pwd.Path -Leaf) -ne 'ch06')
     Set-Location .\ch06
 }
 
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
+
+
 # Build the dummy service template
 dotnet build .\project1
 

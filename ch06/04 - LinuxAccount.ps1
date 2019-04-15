@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Search for appropriate commands - all of them are external
 Get-Command -Name *user*
 

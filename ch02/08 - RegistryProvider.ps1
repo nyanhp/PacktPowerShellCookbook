@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Like the file system, the local registry hives can be browsed.
 # ACLs apply, so AccessDenied errors are not uncommon
 Get-ChildItem HKLM:\SOFTWARE

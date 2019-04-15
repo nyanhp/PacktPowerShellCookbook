@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Text processing can still be necessary even in a world of APIs
 
 # On Windows and Windows Server, the CBS (component based servicing) logs

@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Starting off easy, we need to have a look at the syntax
 # Every comparison is implemented not case-sensitive and case-sensitive
 Get-Command Where-Object -Syntax

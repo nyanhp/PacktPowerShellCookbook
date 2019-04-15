@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # First of all, log in to your Stack
 Add-AzureRMEnvironment -Name "Hochstapler" -ArmEndpoint "https://management.local.azurestack.external"
 

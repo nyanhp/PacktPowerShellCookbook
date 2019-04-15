@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 <# RESTful services have been explored in more detail in chapter 6
 This recipe uses the wonderful https://jsonplaceholder.typicode.com/
 

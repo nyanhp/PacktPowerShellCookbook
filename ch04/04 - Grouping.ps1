@@ -1,3 +1,11 @@
+if ((Split-Path $pwd.Path -Leaf) -ne 'ch04')
+{
+    Set-Location .\ch04
+}
+
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Grouping data by certain properties is very useful
 Get-Service | Group-Object -Property Status
 Get-WinEvent -LogName System -MaxEvents 100 | Group-Object -Property LevelDisplayName
@@ -6,7 +14,8 @@ Get-WinEvent -LogName System -MaxEvents 100 | Group-Object -Property LevelDispla
 # each background job and each remote execution will add a property called PSComputerName
 # which contains the machine the data originated on.
 $computers = Get-Content -Path .\MassiveComputerList.txt
-Invoke-Command -ComputerName $computers -ScriptBlock {
+$cred = [pscredential]::new('Install',('Somepass1' | ConvertTo-SecureString -AsPlainText -Force))
+Invoke-Command -ComputerName $computers -Credential $cred -ScriptBlock {
     Get-WinEvent -LogName System -MaxEvents 100
 } |
     # Grouping on PSComputerName, or as seen here a combination of Hostname and Level

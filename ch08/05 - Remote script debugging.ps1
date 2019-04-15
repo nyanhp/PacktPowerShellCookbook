@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Debugging remote scripts can be extremely important, depending on your work ethics
 $remotescript = {
     # The typical Friday afternoon scripter kicks off a "quick script" on "some servers"

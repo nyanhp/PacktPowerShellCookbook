@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # As opposed to Azure, you cannot create your own Docker registry
 # Google Cloud instead provides a registry for each project
 

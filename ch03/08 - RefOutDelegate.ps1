@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Many functions support an out parameter like the conversion methods
 # Do not be confused by the output - [ref] just indicates that a reference is passed
 [bool] | Get-Member -Static -Name TryParse

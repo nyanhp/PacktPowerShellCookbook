@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To do anything with the CMS, you will need some certificates. Create the certificates for two nodes first:
 Import-WinModule -Name Pki
 New-SelfSignedCertificate -Subject 'CN=Node01' -FriendlyName 'DSC MOF Encryption Cert for machine Node01' -Type DocumentEncryptionCert -CertStoreLocation Cert:\CurrentUser\my

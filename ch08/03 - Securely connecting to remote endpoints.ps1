@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Connecting to remote endpoints is great, but what about security?
 
 # The following cmdlet call should fail.

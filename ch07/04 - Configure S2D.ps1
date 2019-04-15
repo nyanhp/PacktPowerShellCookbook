@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # A new feature of Windows Server 2016, S2D clusters are perfect for
 # your hyperconverged infrastructure that takes the form of a Scale-out file server
 $fileServers = 'PACKT-FS-A','PACKT-FS-B','PACKT-FS-C'

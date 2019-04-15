@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Interacting with SQL can easily be done with PowerShell
 # While there are stellar modules like the DBATools out there,
 # .NET is also always an option.

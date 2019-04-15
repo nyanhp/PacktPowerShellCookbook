@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Let's get familiar with the cmdlet first - brace for impact!
 Get-WinEvent -ListLog * -ErrorAction SilentlyContinue | Format-Wide -Property LogName -Column 4
 

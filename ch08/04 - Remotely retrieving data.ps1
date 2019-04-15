@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # One of the most common use cases is remote data retrieval
 # This mostly starts with an Invoke-Command
 $remoteProcess = Invoke-Command -ComputerName PACKT-DC1 -Credential contoso\Install -ScriptBlock {

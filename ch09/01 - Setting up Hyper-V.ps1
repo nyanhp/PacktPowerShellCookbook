@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # The Hyper-V cmdlets are part of the Hyper-V role
 # but can be installed separately
 Import-WinModule Dism

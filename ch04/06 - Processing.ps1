@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # PowerShell's processing cmdlet is Foreach-Object
 # Taken very literal, we do things for each object
 Get-ChildItem -File | ForEach-Object -Process { Get-FileHash -Path $_.FullName }

@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # On Linux, Remoting is not enabled by default with PS Core.
 # To enable it, you have two choices
 

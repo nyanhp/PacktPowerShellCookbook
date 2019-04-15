@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To use DSC with Azure Stack VMs, you will need to get familiar with ARM templates
 
 # Start with the configuration scipt and the config data

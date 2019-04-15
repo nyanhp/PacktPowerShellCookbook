@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Chapter 04 showed you the where method. Let's examine it futher
 
 # The arrays help topic contains valuable information

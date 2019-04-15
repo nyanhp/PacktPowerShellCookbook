@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To query the Windows event log, there is only one cmdlet in PowerShell Core
 Get-WinEvent -LogName System -MaxEvents 10
 

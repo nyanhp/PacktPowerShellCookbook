@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Pipelines connect input and output
 # Often Get and Set cmdlets are connected
 Get-Service -Name spooler | Set-Service -Status Stopped -WhatIf

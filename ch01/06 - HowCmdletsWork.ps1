@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Use New-Item to create a variable and view the contents
 New-Item -Path variable: -Name myVariable -Value "Isn't it great?"
 $myVariable

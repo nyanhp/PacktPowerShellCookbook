@@ -3,6 +3,9 @@ if ((Split-Path $pwd.Path -Leaf) -ne 'ch03')
     Set-Location .\ch03
 }
 
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Compile and import C# code on the fly
 Add-Type -Path '.\05 - ClassesDotNet.cs'
 

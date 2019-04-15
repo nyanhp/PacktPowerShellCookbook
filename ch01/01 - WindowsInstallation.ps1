@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 #region Installation through MSI
 $path = Join-Path -Path $([IO.Path]::GetTempPath()) -ChildPath pwsh.msi
 Invoke-WebRequest -Uri 'https://github.com/PowerShell/PowerShell/releases/download/v6.2.0/PowerShell-6.2.0-win-x64.msi' -OutFile $path

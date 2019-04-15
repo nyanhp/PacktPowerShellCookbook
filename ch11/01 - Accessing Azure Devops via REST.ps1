@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Azure DevOps (and Azure DevOps Server) can be automated beautifully
 # There are some steps you need to take though
 

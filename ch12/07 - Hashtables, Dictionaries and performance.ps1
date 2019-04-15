@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 #Working with cmdlets like Group-Object as well as hashtables and dictionaries
 #the reader will learn when to use those structures to their advantage
 

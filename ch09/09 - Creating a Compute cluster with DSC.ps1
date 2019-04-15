@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # a more advanced exercise might be to configure your Compute resources via DSC
 # Note that this execise is not usable with PS Core.
 

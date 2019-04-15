@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Starting with something that is easily sortable
 # Sort-Object will apply an ascending, alphanumeric sorting
 'POSHDC1', 'POSHWEB1', 'POSHFS1', 'POSHDC2' | Sort-Object

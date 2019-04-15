@@ -1,7 +1,7 @@
 # Pipeline input can be achieved quite simply with the Input variable
 # As an alternative, you can use $_ and $PSItem
 
-# Without a process block, pipeline input is not what you would expect
+# Without a process block, pipeline input is not what you would expect (it fails)
 function Test-PipelineInput
 {
     Get-Item $Input

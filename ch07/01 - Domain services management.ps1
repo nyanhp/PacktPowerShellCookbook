@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # The lab that you deployed already contains a functioning forest
 # So let's create new forest and a bidirectional trust
 # All cmdlets are assumed to be executed on PACKT-DC2

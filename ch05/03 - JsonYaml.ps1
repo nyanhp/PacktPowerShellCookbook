@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Converting back and forth with ConvertTo and ConvertFrom-Json
 $customObj = [PSCustomObject]@{
     StringProperty = 'StringValue'

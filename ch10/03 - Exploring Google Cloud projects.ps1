@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Like Azure Resource Groups, Google Cloud Projects collect resources
 # and can be used for billing purposes
 Get-GcpProject

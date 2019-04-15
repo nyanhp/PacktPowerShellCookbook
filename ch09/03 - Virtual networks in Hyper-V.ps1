@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Networking on Hyper-V is pretty straightforward
 Get-Command -Noun VMSwitch*
 

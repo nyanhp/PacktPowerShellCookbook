@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Configuring Hyper-V guests with DSC is also often a good idea
 
 # Since CIM is not suitable for PowerShell Direct, we have to think

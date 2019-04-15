@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Remoting configuration is usually not necessary, but nevertheless possible
 # Start with the WSMan drive
 Get-ChildItem -Path WSMan:\localhost

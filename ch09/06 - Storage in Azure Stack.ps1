@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Provisioning storage for VM OS disks, applications, ... starts with
 # The cmdlets
 Get-Command -Noun AzureRmStorage*, AzureStorage*

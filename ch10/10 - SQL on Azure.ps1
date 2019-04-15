@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Deploying traditional SQL workloads on Azure is fairly simple
 
 # If PaaS is enough for you:

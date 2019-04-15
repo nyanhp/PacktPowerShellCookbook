@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # PowerShell Core can run code as jobs. These can be used also for sort-of parallelization
 # Keep in mind that this is not proper parallelization but merely gives the appearance of it
 Get-Command -Noun Job

@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To get started, we need something to manipulate
 $tempFile = Get-Item -Path $(New-TemporaryFile).FullName
 

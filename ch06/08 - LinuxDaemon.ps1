@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 if ((Split-Path $pwd.Path -Leaf) -ne 'ch06')
 {
     Set-Location ./ch06

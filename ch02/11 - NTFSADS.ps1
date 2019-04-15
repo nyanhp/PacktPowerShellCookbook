@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To get started, download any file to an NTFS-formatted volume.
 # This lab assumes that you are storing downloads in $home\Downloads
 $downloadRoot = "~\Downloads"

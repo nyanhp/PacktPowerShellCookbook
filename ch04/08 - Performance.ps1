@@ -1,6 +1,7 @@
-# Performance is key with most cmdlets
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
 
-# Especially in the pipeline, 
+# Performance is key with most cmdlets
 
 # With Where-Object, all objects have to be retrieved from the Get-ChildItem cmdlet first
 $files = Get-ChildItem -File -Recurse -Path $PSHOME | Where-Object -Property Extension -eq '.dll'

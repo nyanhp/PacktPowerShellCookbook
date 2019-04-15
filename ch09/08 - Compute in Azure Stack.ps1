@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Deploying new VM workloads works more or less like on Azure, with a few differences
 # Create a resource group
 New-AzureRmResourceGroup -Name VM -Location local

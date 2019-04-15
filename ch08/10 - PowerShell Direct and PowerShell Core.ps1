@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Another Windows-only thing that has been introduced in Windows Server 2016
 # is PowerShell Direct. Fortunately, it works in PSCore as well!
 

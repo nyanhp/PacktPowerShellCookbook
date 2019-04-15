@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # This recipe requires the lab environment. It will not work otherwise.
 # You may execute the steps directly on PACKT-DC1
 

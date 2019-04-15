@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Just Enough Administration has debuted with Windows PowerShell 5
 # as a Role Based Access Control for remote sessions
 

@@ -57,7 +57,7 @@ $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch $labName -Ipv4Addr
 $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch 'Default Switch' -UseDhcp
 
 $postInstallActivity = Get-LabPostInstallationActivity -ScriptFileName 'New-ADLabAccounts 2.0.ps1' -DependencyFolder $labSources\PostInstallationActivities\PrepareFirstChildDomain
-Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -OperatingSystem 'Windows Server 2019 Datacenter (Desktop Experience)' -Memory 4gb
+Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -Memory 4gb
 Add-LabMachineDefinition -Name PACKT-DC2 -IpAddress 192.168.56.77 -OperatingSystem 'Windows Server 2019 Datacenter (Desktop Experience)'
 
 #File servers, S2D

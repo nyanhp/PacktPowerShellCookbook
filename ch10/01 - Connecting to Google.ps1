@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # In order to connect to Google, you need to install the GoogleCloud module and the SDK
 Install-ChocolateyPackage -Name gcloudsdk # Or download the installer from https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
 Install-Module -Name GoogleCloud -Scope CurrentUser

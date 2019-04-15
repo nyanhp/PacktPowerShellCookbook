@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Docker and containers are all the rage. Using them on Windows is not that
 # complicated, and entirely done with PowerShell Core.
 # Execute the following steps on PACKT-HV1

@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # After having sorted and filtered, objects are often selected
 Get-Process |
     Sort-Object -Property WorkingSet64 |
@@ -5,7 +8,7 @@ Get-Process |
 
 # A handy way to display object property values for beginners is Select -First 1
 # This only displays the properties of one object instead of hundreds
-Get-Process | Select -First 1 | Format-List *
+Get-Process | Select-Object -First 1 | Format-List *
 
 # Using the Index parameter, you can also extract indices from collections
 1..100 | Select-Object -Index 1,5,10

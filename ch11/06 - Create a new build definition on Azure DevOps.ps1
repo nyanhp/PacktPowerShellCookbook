@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # To automate the creation of a build pipeline, you can use PowerShell as well
 # This process is a bit more involved though.
 

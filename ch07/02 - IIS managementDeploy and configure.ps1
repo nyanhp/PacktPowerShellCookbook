@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # All cmdlets are assumed to be executed on PACKT-WB1, e.g. in a session.
 
 # Deploying IIS is easy enough

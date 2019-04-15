@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 <#
 PowerShell does not work with traditional integer exit codes.
 Instead, we are using different streams to convey success and errors.

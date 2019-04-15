@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Resource group templates can automate the deployment of a complete
 # service, e.g. a web app consisting of a highly available database,
 # a web frontend, an authentication component, networking and so on

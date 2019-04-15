@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Windows PowerShell Desired State Configuration is a great way to configure your servers.
 # Apart from configuring everything after the deployment, you can also integrate it directly
 # into your build

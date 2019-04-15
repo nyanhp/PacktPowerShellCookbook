@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Runbooks are great to execute PowerShell code in your automation account
 # Runbooks can be called with Web Hooks and even accept parameters
 

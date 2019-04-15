@@ -2,6 +2,10 @@ if ((Split-Path $pwd.Path -Leaf) -ne 'ch02')
 {
     Set-Location .\ch02
 }
+
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Install SHiPS
 Install-Module -Name SHiPS -Force -Scope CurrentUser
 

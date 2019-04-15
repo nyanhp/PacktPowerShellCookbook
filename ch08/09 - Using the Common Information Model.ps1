@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # The common information model (CIM) allows you to retrieve data remotely
 Get-Help about_CimSession
 

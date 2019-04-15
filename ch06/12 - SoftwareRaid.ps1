@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # Linux can create software RAID devices with mdadm.
 # First of all, let's see if there is an existing configuration
 mdadm --detail --scan

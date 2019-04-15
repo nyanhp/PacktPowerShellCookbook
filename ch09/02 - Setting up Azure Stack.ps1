@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # The set up of Azure Stack is time consuming. Plan a couple of hours wait
 
 # Set up the VM on Azure, unless you have a bare-metal Hypervisor lying around

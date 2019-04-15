@@ -1,3 +1,6 @@
+throw 'Please execute this script as instructed in the recipe. Use the appropriate system (e.g. the lab domain controller, the lab file server, ...) where appropriate.'
+return
+
 # All streams can be redirected by their numbers
 Get-Item -Path $home,'nonexistant' 2> error.txt 1> success.txt
 Get-Content -Path error.txt, success.txt
