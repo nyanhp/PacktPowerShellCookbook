@@ -9,7 +9,7 @@ if (-not (Get-Module AutomatedLab -List))
     $null = New-LabSourcesFolder -Drive C -Force
 }
 
-$null = Read-Host -Prompt "Please store your ISO files in $(Get-LabSourcesLocationInternal -Local) and press any key to continue"
+$null = Read-Host -Prompt "Please store your ISO files (Server 2016, SQL Server 2017) in $(Get-LabSourcesLocationInternal -Local) and press any key to continue"
 
 $labName = 'PSCookBook'
 
@@ -25,6 +25,12 @@ Add-LabDomainDefinition -Name contoso.com -AdminUser Install -AdminPassword Some
 
 #these credentials are used for connecting to the machines. As this is a lab we use clear-text passwords
 Set-LabInstallationCredential -Username Install -Password Somepass1
+
+$sqlIso = Get-ChildItem -Path "$(Get-LabSourcesLocationInternal -Local)\isos" -File -Filter *SQL*2017* | Select -First 1
+if (-not $sqlIso)
+{
+    Write-Warning -Message "Your lab will not contain a SQL Server since no SQL 2017 ISO was found."
+}
 
 #defining default parameter values, as these ones are the same for all the machines
 $PSDefaultParameterValues = @{
@@ -51,14 +57,19 @@ $roles = @(
     Get-LabMachineRoleDefinition -Role RootDC
     Get-LabMachineRoleDefinition -Role CaRoot @{ InstallWebEnrollment = 'Yes'; InstallWebRole = 'Yes'}
     Get-LabMachineRoleDefinition -Role Routing
+    if ($sqlIso)
+    {
+        $null = Add-LabIsoImageDefinition -Name SQLServer2017 -Path $sqlIso.FullName -NoDisplay
+        Get-LabMachineRoleDefinition -Role SQLServer2017 @{InstallSampleDatabase = 'true' }
+    }
 )
 $netAdapter = @()
 $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch $labName -Ipv4Address 192.168.56.9
 $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch 'Default Switch' -UseDhcp
 
 $postInstallActivity = Get-LabPostInstallationActivity -ScriptFileName 'New-ADLabAccounts 2.0.ps1' -DependencyFolder $labSources\PostInstallationActivities\PrepareFirstChildDomain
-Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -Memory 4gb
-Add-LabMachineDefinition -Name PACKT-DC2 -IpAddress 192.168.56.77 -OperatingSystem 'Windows Server 2019 Datacenter (Desktop Experience)'
+Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -Memory 8gb
+Add-LabMachineDefinition -Name PACKT-DC2 -IpAddress 192.168.56.77
 
 #File servers, S2D
 Add-LabMachineDefinition -Name PACKT-FS-A -Roles FileServer -IpAddress 192.168.56.11 -DiskName PACKT-FS-A-D, PACKT-FS-A-E, PACKT-FS-A-F -DomainName contoso.com
