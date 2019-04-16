@@ -88,8 +88,8 @@ else
 }
 
 # Hypervisor
-Add-LabMachineDefinition -Name PACKT-HV1 -Memory -DiskName PACKT-HV1-D -DomainName contoso.com
-Add-LabMachineDefinition -Name PACKT-HV2 -Memory -DiskName PACKT-HV2-D -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-HV1 -DiskName PACKT-HV1-D -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-HV2 -DiskName PACKT-HV2-D -DomainName contoso.com
 
 # Maybe a Linux VM
 Add-LabMachineDefinition -Name PACKT-CN1 -Memory 2GB -DomainName contoso.com -OperatingSystem 'Centos 7.4'
