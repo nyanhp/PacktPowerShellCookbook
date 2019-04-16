@@ -16,7 +16,7 @@ Install-Docker
 
 # To make use of docker, you will - at some point - need to download a container image
 # Notice that the commands are the same on Windows as well as Linux
-docker pull mcr.microsoft.com/powershell:6.1.3-nanoserver-1809
+docker pull mcr.microsoft.com/powershell:6.2.0-nanoserver-1809
 
 # Are you wondering where your image is stored?
 Get-ChildItem -Path (Join-Path -Path $env:ProgramData -ChildPath Docker) -File -Recurse
@@ -25,10 +25,10 @@ Get-ChildItem -Path (Join-Path -Path $env:ProgramData -ChildPath Docker) -File -
 docker images
 
 # Run the container. -it gives you an interactive prompt
-docker run -it mcr.microsoft.com/powershell:6.1.3-nanoserver-1809
+docker run -it mcr.microsoft.com/powershell:6.2.0-nanoserver-1809
 
 # After a few seconds, you are running PowerShell Core on a Nano Server image
-$PSVersionTable # 6.1.3, Core
+$PSVersionTable # 6.2.0, Core
 
 # Exit the container
 exit
@@ -45,7 +45,7 @@ docker ps -a
 Save-Module -Name Polaris -Path .\polaris
 @"
 # The image our container is based on
-FROM mcr.microsoft.com/powershell:6.1.3-nanoserver-1809
+FROM mcr.microsoft.com/powershell:6.2.0-nanoserver-1809
 
 # Our image requires a port to be opened
 EXPOSE 8080

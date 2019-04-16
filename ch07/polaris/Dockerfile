@@ -1,5 +1,5 @@
 # The image our container is based on
-FROM mcr.microsoft.com/powershell:6.1.3-nanoserver-1809
+FROM mcr.microsoft.com/powershell:6.2.0-nanoserver-1809
 
 # Our image requires a port to be opened
 EXPOSE 8080

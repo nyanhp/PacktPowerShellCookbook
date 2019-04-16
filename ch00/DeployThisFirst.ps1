@@ -57,18 +57,13 @@ $roles = @(
     Get-LabMachineRoleDefinition -Role RootDC
     Get-LabMachineRoleDefinition -Role CaRoot @{ InstallWebEnrollment = 'Yes'; InstallWebRole = 'Yes'}
     Get-LabMachineRoleDefinition -Role Routing
-    if ($sqlIso)
-    {
-        $null = Add-LabIsoImageDefinition -Name SQLServer2017 -Path $sqlIso.FullName -NoDisplay
-        Get-LabMachineRoleDefinition -Role SQLServer2017 @{InstallSampleDatabase = 'true' }
-    }
 )
 $netAdapter = @()
 $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch $labName -Ipv4Address 192.168.56.9
 $netAdapter += New-LabNetworkAdapterDefinition -VirtualSwitch 'Default Switch' -UseDhcp
 
 $postInstallActivity = Get-LabPostInstallationActivity -ScriptFileName 'New-ADLabAccounts 2.0.ps1' -DependencyFolder $labSources\PostInstallationActivities\PrepareFirstChildDomain
-Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -Memory 8gb
+Add-LabMachineDefinition -Name PACKT-DC1 -Roles $roles -NetworkAdapter $netAdapter -PostInstallationActivity $postInstallActivity -DomainName contoso.com -Memory 4gb
 Add-LabMachineDefinition -Name PACKT-DC2 -IpAddress 192.168.56.77
 
 #File servers, S2D
@@ -81,11 +76,20 @@ Add-LabMachineDefinition -Name NEWVM01 -IpAddress 192.168.56.101
 Add-LabMachineDefinition -Name NEWVM02 -IpAddress 192.168.56.102
 
 # Web Server to be, RDS Host
-Add-LabMachineDefinition -Name PACKT-WB1 -DomainName contoso.com
+if ($sqlIso)
+{
+    $null = Add-LabIsoImageDefinition -Name SQLServer2017 -Path $sqlIso.FullName -NoDisplay
+    $role = Get-LabMachineRoleDefinition -Role SQLServer2017 @{InstallSampleDatabase = 'true' }
+    Add-LabMachineDefinition -Name PACKT-WB1 -DomainName contoso.com -Roles $role -Memory 4GB
+}
+else
+{
+    Add-LabMachineDefinition -Name PACKT-WB1 -DomainName contoso.com
+}
 
 # Hypervisor
-Add-LabMachineDefinition -Name PACKT-HV1 -Memory 4GB -DiskName PACKT-HV1-D -DomainName contoso.com
-Add-LabMachineDefinition -Name PACKT-HV2 -Memory 4GB -DiskName PACKT-HV2-D -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-HV1 -Memory -DiskName PACKT-HV1-D -DomainName contoso.com
+Add-LabMachineDefinition -Name PACKT-HV2 -Memory -DiskName PACKT-HV2-D -DomainName contoso.com
 
 # Maybe a Linux VM
 Add-LabMachineDefinition -Name PACKT-CN1 -Memory 2GB -DomainName contoso.com -OperatingSystem 'Centos 7.4'
@@ -107,7 +111,7 @@ Stop-LabVm -ComputerName PACKT-HV1,PACKT-HV2 -Wait
 Get-Vm -VMName PACKT-HV1,PACKT-HV2 | Set-VMProcessor -ExposeVirtualizationExtensions $true
 Start-LabVm -ComputerName PACKT-HV1,PACKT-HV2 -Wait
 
-$pscore = Get-LabInternetFile -Uri https://github.com/PowerShell/PowerShell/releases/download/v6.1.3/PowerShell-6.1.3-win-x64.msi -PassThru -path $labsources\Tools -FileName pscore.msi -Force
+$pscore = Get-LabInternetFile -Uri https://github.com/PowerShell/PowerShell/releases/download/v6.2.0/PowerShell-6.2.0-win-x64.msi -PassThru -path $labsources\Tools -FileName pscore.msi -Force
 
 Install-LabSoftwarePackage -Path $pscore.FullName -ComputerName (Get-LabVm)
 Save-Module -Name WindowsCompatibility -Path $labsources\Tools
