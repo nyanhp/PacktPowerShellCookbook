@@ -13,8 +13,8 @@ Get-Command -Module SqlServer
 
 # You can use the module from simple queries
 # Note: To actually use Invoke-SqlCmd, you need to use implicit remoting at the moment.
-Export-PSSession -Session (New-PSSession DSCCASQL01) -OutputModule ImplicitSql -Module SqlServer
-$projects = Invoke-Sqlcmd -ServerInstance DSCCASQL1\NamedInstance -Database Tfs_AutomatedLab -Credential contoso\install -Query 'SELECT project_name,state from dbo.tbl_projects'
+Export-PSSession -Session (New-PSSession PACKT-WB1) -OutputModule ImplicitSql -Module SqlServer
+$projects = Invoke-Sqlcmd -ServerInstance PACKT-WB1\NamedInstance -Database Tfs_AutomatedLab -Credential contoso\install -Query 'SELECT project_name,state from dbo.tbl_projects'
 
 # Your query will contain an array of DataRow objects containing column names as properties
 $projects.Where(
@@ -32,7 +32,7 @@ $projects.Where(
 $connection = New-Object -TypeName System.Data.SqlClient.SqlConnection
 
 # Using a connection string to connect
-$connection.ConnectionString = 'Data Source=DSCCASQL01;Initial Catalog=Tfs_AutomatedLab;Trusted_Connection=yes'
+$connection.ConnectionString = 'Data Source=PACKT-WB1;Initial Catalog=Tfs_AutomatedLab;Trusted_Connection=yes'
 
 # You command can use the connection - but you need to open it first
 $command = New-Object -TypeName System.Data.SqlClient.SqlCommand
@@ -57,7 +57,7 @@ $connection.Close()
 
 # Using Modules like the DbaTools you can be a lot more efficient in your day to day work.
 # Are you missing Invoke-SqlCommand from PowerShell Core? Invoke-DbaQuery has you covered.
-$result = Invoke-DbaQuery -SqlInstance dsccasql01 -Query 'SELECT project_name,state from dbo.tbl_projects' -Database tfs_automatedlab
+$result = Invoke-DbaQuery -SqlInstance PACKT-WB1 -Query 'SELECT project_name,state from dbo.tbl_projects' -Database tfs_automatedlab
 
 # Luckily, the result is an array of DataRows, just like Invoke-SqlCmd
 $result.Where(
@@ -72,8 +72,8 @@ $result.Where(
 
 # Another good example is migrating entries from one table to another
 # Here, projects from TFS are migrated to Azure DevOps Server.
-Get-DbaDbTable -SqlInstance DSCCASQL01 -SqlCredential contoso\Install -Database Tfs_AutomatedLab -Table dbo.tbl_projects |
+Get-DbaDbTable -SqlInstance PACKT-WB1 -SqlCredential contoso\Install -Database Tfs_AutomatedLab -Table dbo.tbl_projects |
 Copy-DbaDbTableData -Destination DSCCASQL02 -DestinationDatabase AzDevOps_AutomatedLab -DestinationSqlCredential contoso\install -Table az.tbl_projects
 
 # Even an entire migration is beautifully easy
-Start-DbaMigration -Source dsccasql01 -Destination dsccasql02 -BackupRestore
+Start-DbaMigration -Source PACKT-WB1 -Destination dsccasql02 -BackupRestore

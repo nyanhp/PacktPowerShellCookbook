@@ -14,7 +14,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\ServerManager" -name "DoNotOpen
 
 # Working with a remote registry is not possible with the built-in cmdlets
 # However, with .NET, anything is possible
-$remoteHive = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', 'DSCCASQL01')
+$remoteHive = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', 'PACKT-WB1')
 
 # To open a key with write access, use the boolean value
 $key = $remotehive.OpenSubKey('SoFTWarE\microsoft\servermanager', $true)
